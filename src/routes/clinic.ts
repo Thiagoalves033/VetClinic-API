@@ -11,9 +11,9 @@ import {
 
 const router = express.Router()
 
-router.route('/tutors').get(getAllTutors)
-router.route('/tutor').post(createTutor)
-router.route('/tutor/:id').put(updateTutor).delete(deleteTutor)
+router.route('/').get(getAllTutors)
+router.route('/').post(createTutor)
+router.route('/:id').put(updateTutor).delete(deleteTutor)
 router.route('/pet/:tutorId').post(createPet)
 router.route('/pet/:petId/tutor/:tutorId').put(updatePet).delete(deletePet)
 

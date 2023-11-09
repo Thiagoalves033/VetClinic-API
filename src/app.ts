@@ -1,8 +1,9 @@
 import express from 'express';
-import 'express-async-errors'
-import 'dotenv/config'
+import 'express-async-errors';
+import 'dotenv/config';
 
 import connectDB from './db/connect';
+import routes from './routes/clinic'; 
 //Middleware imports go here
 
 const app = express()
@@ -10,6 +11,8 @@ const app = express()
 app.use(express.json())
 
 // Routes go here
+app.use('/tutors', routes)
+app.use('/tutor', routes)
 
 const port = process.env.PORT || 5000
 

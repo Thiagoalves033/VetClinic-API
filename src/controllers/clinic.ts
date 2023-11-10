@@ -54,7 +54,30 @@ const createPet = async (req: Request, res: Response) => {
 }
 
 const updatePet = async (req: Request, res: Response) => {
-    const tutors = await console.log('Update Pet')
+    const {petId, tutorId} = req.params
+
+    const tutor = await Tutor.findOne({_id: tutorId})
+
+    if(!tutor) {
+        return res.status(404).json({msg: `Could not find tutor with id ${tutorId}`})
+    }
+
+    const petIndex = tutor.pets.findIndex((pet) => pet._id.toString() === petId)
+
+    if(petIndex === -1) {
+        return res.status(404).json({msg: `Pet with id ${petId} does not belong to this tutor`})
+    }
+
+    const updatedPet = await Pet.findByIdAndUpdate(petId, req.body, {
+        new: true,
+        runValidators: true,
+    })
+
+    tutor.pets[petIndex] = updatedPet!
+
+    await tutor.save()
+
+    return res.status(200).json({tutor})
 }
 
 const deletePet = async (req: Request, res: Response) => {
@@ -69,4 +92,4 @@ export {
     createPet,
     updatePet,
     deletePet
-}
+} 

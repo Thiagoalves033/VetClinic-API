@@ -1,6 +1,7 @@
-import mongoose, {Document} from "mongoose";
+import mongoose, {Document, Schema} from "mongoose";
 
 interface Pets {
+    _id: Schema.Types.ObjectId;
     name: string;
     species: string;
     carry: string;

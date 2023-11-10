@@ -1,19 +1,19 @@
 import {Request, Response} from 'express'
-import Clinic from '../models/clinic'
+import {Pet, Tutor} from '../models/clinic'
 
 const getAllTutors = async (req: Request, res: Response) => {
-    const tutors = await Clinic.find({})
+    const tutors = await Tutor.find({})
     return res.status(200).json({nbHits: tutors.length, tutors})
 }
 
 const createTutor = async (req: Request, res: Response) => {
-    const tutors = await Clinic.create(req.body)
+    const tutors = await Tutor.create(req.body)
     return res.status(200).json({tutors})
 }
 
 const updateTutor = async (req: Request, res: Response) => {
     const {id} = req.params
-    const tutors = await Clinic.findOneAndUpdate({_id: id}, req.body, {
+    const tutors = await Tutor.findOneAndUpdate({_id: id}, req.body, {
         new: true,
         runValidators: true,
     })
@@ -27,7 +27,7 @@ const updateTutor = async (req: Request, res: Response) => {
 
 const deleteTutor = async (req: Request, res: Response) => {
     const {id} = req.params
-    const tutors = await Clinic.findOneAndDelete({_id: id})
+    const tutors = await Tutor.findOneAndDelete({_id: id})
 
     if (!tutors) {
         return res.status(400).json({msg: `Could not find tutor with id ${id}`})
@@ -37,7 +37,20 @@ const deleteTutor = async (req: Request, res: Response) => {
 }
 
 const createPet = async (req: Request, res: Response) => {
-    const tutors = await console.log('Create Pet')
+    const {tutorId} = req.params
+    const tutor = await Tutor.findOne({_id: tutorId})
+
+    if(!tutor) {
+        return res.status(404).json({msg: `Could not find tutor with id ${tutorId}`})
+    }
+
+    const newPet = await Pet.create(req.body)
+
+    tutor.pets.push(newPet)
+
+    await tutor.save()
+
+    return res.status(200).json({tutor})
 }
 
 const updatePet = async (req: Request, res: Response) => {

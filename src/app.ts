@@ -13,6 +13,7 @@ app.use(express.json())
 // Routes go here
 app.use('/tutors', routes)
 app.use('/tutor', routes)
+app.use('/pet', routes)
 
 const port = process.env.PORT || 5000
 

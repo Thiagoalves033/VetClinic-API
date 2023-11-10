@@ -7,33 +7,33 @@ const getAllTutors = async (req: Request, res: Response) => {
 }
 
 const createTutor = async (req: Request, res: Response) => {
-    const tutors = await Tutor.create(req.body)
-    return res.status(200).json({tutors})
+    const tutor = await Tutor.create(req.body)
+    return res.status(201).json({msg: `Tutor created`, tutor})
 }
 
 const updateTutor = async (req: Request, res: Response) => {
-    const {id} = req.params
-    const tutors = await Tutor.findOneAndUpdate({_id: id}, req.body, {
+    const {id: tutorId} = req.params
+    const tutor = await Tutor.findOneAndUpdate({_id: tutorId}, req.body, {
         new: true,
         runValidators: true,
     })
 
-    if (!tutors) {
-        return res.status(404).json({msg: `Could not find tutor with id ${id}`})
+    if (!tutor) {
+        return res.status(404).json({msg: `Could not find tutor with id ${tutorId}`})
     }
 
-    return res.status(200).json({updated: tutors})
+    return res.status(200).json({msg: `Tutor with id ${tutorId} updated`, tutor})
 }
 
 const deleteTutor = async (req: Request, res: Response) => {
-    const {id} = req.params
-    const tutors = await Tutor.findOneAndDelete({_id: id})
+    const {id: tutorId} = req.params
+    const tutor = await Tutor.findOneAndDelete({_id: tutorId})
 
-    if (!tutors) {
-        return res.status(400).json({msg: `Could not find tutor with id ${id}`})
+    if (!tutor) {
+        return res.status(404).json({msg: `Could not find tutor with id ${tutorId}`})
     }
 
-    return res.status(200).json({deleted: tutors})
+    return res.status(200).json({msg: `Tutor with id ${tutorId} deleted`})
 }
 
 const createPet = async (req: Request, res: Response) => {
@@ -50,7 +50,7 @@ const createPet = async (req: Request, res: Response) => {
 
     await tutor.save()
 
-    return res.status(200).json({tutor})
+    return res.status(201).json({msg: `Pet created`, tutor})
 }
 
 const updatePet = async (req: Request, res: Response) => {
@@ -77,7 +77,7 @@ const updatePet = async (req: Request, res: Response) => {
 
     await tutor.save()
 
-    return res.status(200).json({tutor})
+    return res.status(200).json({msg: `Pet with id ${petId} updated`, tutor})
 }
 
 const deletePet = async (req: Request, res: Response) => {
@@ -102,7 +102,7 @@ const deletePet = async (req: Request, res: Response) => {
 
     await tutor.save()
 
-    return res.status(200).json({tutor})
+    return res.status(200).json({msg: `Pet with id ${petId} deleted`, tutor})
 }
 
 export {

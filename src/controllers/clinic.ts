@@ -8,6 +8,23 @@ const getAllTutors = async (req: Request, res: Response) => {
 
 const createTutor = async (req: Request, res: Response) => {
     const tutor = await Tutor.create(req.body)
+
+    if (tutor.pets.length > 0) {
+        for (const pet of tutor.pets) {
+            
+            const newPet = new Pet({
+                _id: pet._id,
+                name: pet.name,
+                species: pet.species,
+                carry: pet.carry,
+                weight: pet.weight,
+                date_of_birth: pet.date_of_birth
+            });
+
+            await newPet.save();
+        }
+    }
+
     return res.status(201).json({msg: `Tutor created`, tutor})
 }
 

@@ -1,8 +1,47 @@
 import {Request, Response} from 'express'
 import {Pet, Tutor} from '../models/clinic'
 
+interface Queries {
+    name?: {$regex: string; $options: string}
+    date_of_birth?: {$regex: string, $options: string};
+}
+
 const getAllTutors = async (req: Request, res: Response) => {
-    const tutors = await Tutor.find({})
+    const {name, date_of_birth, sort, fields} = req.query
+
+    const queryObject: Queries = {}
+
+    if(name) {
+        queryObject.name = {$regex: name as string, $options: 'i'}
+    }
+
+    if(date_of_birth) {
+        queryObject.date_of_birth = {$regex: date_of_birth as string, $options: 'i'}
+    }
+
+    let result = Tutor.find(queryObject)
+
+    if(sort) {
+        const sortList = (sort as string).split(',').join(' ')
+        result = result.sort(sortList)
+    }
+    else {
+        result = result.sort('name')
+    }
+
+    if(fields) {
+        const fieldsList = (fields as string).split(',').join(' ')
+        result = result.select(fieldsList)
+    }
+
+    const page = +(req.query.page!) || 1
+    const limit = +(req.query.limit!) || 5
+    const skip = (page - 1) * limit
+
+    result = result.skip(skip).limit(limit)
+
+    const tutors = await result
+
     return res.status(200).json({nbHits: tutors.length, tutors})
 }
 

@@ -4,7 +4,9 @@ import 'dotenv/config';
 
 import connectDB from './db/connect';
 import routes from './routes/clinic'; 
-//Middleware imports go here
+
+import notFound from './middlewares/not-found';
+import errorHandler from './middlewares/error-handler';
 
 const app = express()
 
@@ -14,6 +16,9 @@ app.use(express.json())
 app.use('/tutors', routes)
 app.use('/tutor', routes)
 app.use('/pet', routes)
+
+app.use(notFound)
+app.use(errorHandler)
 
 const port = process.env.PORT || 5000
 

@@ -8,7 +8,7 @@ VetClinic API is designed to help a franchise of veterinary clinics manage their
 
 Tutors and pets are simply items. Their properties are as follows:
 
-— **Tutors:**
+- **Tutors:**
 
 |Field|Description|
 |-----|-----------|
@@ -20,7 +20,7 @@ Tutors and pets are simply items. Their properties are as follows:
 |zipCode|The tutor's postal code.|
 |pets|A list of pets under the tutor.|
 
-— **Pets:**
+- **Pets:**
 
 |Field|Description|
 |-----|-----------|
@@ -35,13 +35,15 @@ Tutors and pets are simply items. Their properties are as follows:
 
 The data can also be accessed through the use of specific queries. This section will cover how to use this functionality to request data from the API.
 
-— **Sorting:**
+- **Sorting:**
 
 By default, the data is sorted by the tutor's name, but this can be changed using the _sort_ query.
 
-For example, in order to sort the data by date_of_birth: localhost:5000/tutors?sort=date_of_birth
+For example, in order to sort the data by date_of_birth the following query would be necessary: 
 
-— **Filtering:**
+**GET**/tutors?sort=date_of_birth
+
+- **Filtering:**
 
 Currently, filtering supports the following parameters: 
 
@@ -53,6 +55,38 @@ Currently, filtering supports the following parameters:
 |page=|Specify the desired page.|
 |limit=|Specify how many items are shown per page. By default, the value is 5.|
 
+- **Example**
+
+Search for a single tutor whose name has 'em' and only show the name, phone, email and pets fields.
+
+**GET**/tutors?name=em&fields=name,phone,email,pets&limit=1
+
+Since we're setting 'limit' to 1, it returns the first occurrence that matches the filtering:
+
+```
+{
+    "nbHits": 1,
+    "tutors": [
+        {
+            "_id": "655116b3b1cf64920097c4bb",
+            "name": "Emma Johnson",
+            "phone": "61234567890",
+            "email": "emma@example.com",
+            "pets": [
+                {
+                    "name": "Buddy",
+                    "species": "Dog",
+                    "carry": "f",
+                    "weight": 12,
+                    "date_of_birth": "2018-05-20 09:15",
+                    "_id": "655116b3b1cf64920097c4bc"
+                }
+            ]
+        }
+    ]
+}
+```
+
 **_Important:_** Please, be aware that filtering by pet's properties is still not supported and will result in unexpected behavior.
 
 ## Running Locally
@@ -60,7 +94,7 @@ Currently, filtering supports the following parameters:
 In order to run the API locally, follow these steps:
 
 1) Clone this repository
-2) Compile the TypesCript source code
+2) Compile the TypesCript source code to ES2018
 3) Run app.js
 
 By default, the application will run on port 5000.

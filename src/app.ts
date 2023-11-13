@@ -14,8 +14,6 @@ app.use(express.json())
 
 // Routes go here
 app.use('/', routes)
-app.use('/', routes)
-app.use('/', routes)
 
 app.use(notFound)
 app.use(errorHandler)

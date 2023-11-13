@@ -2,12 +2,15 @@ import {Request, Response} from 'express'
 import {Pet, Tutor} from '../models/clinic'
 
 interface Queries {
-    name?: {$regex: string; $options: string}
-    date_of_birth?: {$regex: string, $options: string};
+    name?: {$regex: string, $options: 'i'};
+    phone?: {$regex: string};
+    email?: {$regex: string, $options: 'i'};
+    date_of_birth?: {$regex: string};
+    zipCode?: {$regex: string};
 }
 
 const getAllTutors = async (req: Request, res: Response) => {
-    const {name, date_of_birth, sort, fields} = req.query
+    const {name, phone, email, date_of_birth, zipCode, sort, fields} = req.query
 
     const queryObject: Queries = {}
 
@@ -15,8 +18,20 @@ const getAllTutors = async (req: Request, res: Response) => {
         queryObject.name = {$regex: name as string, $options: 'i'}
     }
 
+    if(phone) {
+        queryObject.phone = {$regex: phone as string}
+    }
+
+    if(email) {
+        queryObject.email = {$regex: email as string, $options: 'i'}
+    }
+
     if(date_of_birth) {
-        queryObject.date_of_birth = {$regex: date_of_birth as string, $options: 'i'}
+        queryObject.date_of_birth = {$regex: date_of_birth as string}
+    }
+
+    if(zipCode) {
+        queryObject.zipCode = {$regex: zipCode as string}
     }
 
     let result = Tutor.find(queryObject)

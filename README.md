@@ -27,7 +27,7 @@ Tutors and pets are simply items. Their properties are as follows:
 |id|The pet's unique id.|
 |name|The name of the pet.|
 |species|The pet's species.|
-|carry|?????|
+|carry|The pet's size.|
 |weight|The pet's weight.|
 |date_of_birth|Pet's birthday.|
 
@@ -76,7 +76,7 @@ Since we're setting 'limit' to 1, it returns the first occurrence that matches t
                 {
                     "name": "Buddy",
                     "species": "Dog",
-                    "carry": "f",
+                    "carry": "s",
                     "weight": 12,
                     "date_of_birth": "2018-05-20 09:15",
                     "_id": "655116b3b1cf64920097c4bc"

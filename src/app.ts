@@ -13,9 +13,9 @@ const app = express()
 app.use(express.json())
 
 // Routes go here
-app.use('/tutors', routes)
-app.use('/tutor', routes)
-app.use('/pet', routes)
+app.use('/', routes)
+app.use('/', routes)
+app.use('/', routes)
 
 app.use(notFound)
 app.use(errorHandler)

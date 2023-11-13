@@ -93,8 +93,9 @@ Since we're setting 'limit' to 1, it returns the first occurrence that matches t
 
 In order to run the API locally, follow these steps:
 
-1) Clone this repository
-2) Compile the TypesCript source code to ES2018
-3) Run app.js
+1) Clone this repository: `git@github.com:Thiagoalves033/VetClinic-API.git`
+2) Install the dependencies: `npm install`
+3) Compile the TypesCript source code to ES2018
+4) Run app.js: `npm start`
 
 By default, the application will run on port 5000.
